@@ -1,0 +1,27 @@
+
+<div class="content">
+  <div fxLayout="row wrap" fxLayoutGap="16px grid">
+    <div [fxFlex]="(100/gridColumns) + '%'" fxFlex.xs="100%" fxFlex.sm="33%"  *ngFor="let data of photosData | paginate: { itemsPerPage: 3, currentPage: p }">
+      <mat-card class="mat-elevation-z4">
+        <mat-card-header>
+          <mat-card-title>ID: {{data.id}}</mat-card-title>
+        </mat-card-header>
+<pinch-zoom [double-tap]='true'>
+        <img mat-card-image src="{{data.urls.raw}}"
+        >
+</pinch-zoom>
+        <mat-card-content>
+          <p>
+            Auther: {{data.user.username}}
+          </p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button>LIKES: {{data.likes}}</button>
+
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+
+  <pagination-controls (pageChange)="p = $event" class="float-right"></pagination-controls>
+</div>
