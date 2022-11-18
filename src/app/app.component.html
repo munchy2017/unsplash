@@ -24,7 +24,7 @@
     <span *ngFor="let data of topics[6]">
 
 
-          <button mat-button class="menu-button" (click)="getTopic(data.slug)" routerLink="/home">
+          <button mat-button class="menu-button" (click)="notifyForChange(data.slug)" routerLink="/home">
             <mat-icon>load</mat-icon>
             {{data.title}}
           </button>

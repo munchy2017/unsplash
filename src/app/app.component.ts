@@ -1,9 +1,9 @@
-import { Component, ViewChild } from '@angular/core';
-import { BreakpointObserver } from '@angular/cdk/layout';
-import { MatSidenav } from '@angular/material/sidenav';
-import { delay, filter } from 'rxjs/operators';
-import { NavigationEnd, Router } from '@angular/router';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {BreakpointObserver} from '@angular/cdk/layout';
+import {MatSidenav} from '@angular/material/sidenav';
+import {delay, filter} from 'rxjs/operators';
+import {NavigationEnd, Router} from '@angular/router';
+import {UntilDestroy, untilDestroyed} from '@ngneat/until-destroy';
 import {NavItem} from "./nav-item";
 import {CategoryService} from "./services/category.service";
 import {Observable} from "rxjs";
@@ -16,18 +16,18 @@ import {PhotoService} from "./services/photo.service";
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   @ViewChild(MatSidenav)
   sidenav!: MatSidenav;
   navItems: NavItem[] = [
     {
-      id:'1',
+      id: '1',
       displayName: 'DevFestFL',
       iconName: 'close',
 
     },
     {
-      id:'2',
+      id: '2',
       displayName: 'Prosper',
       iconName: 'close',
 
@@ -35,10 +35,9 @@ export class AppComponent {
 
   ];
 
-  topics:any =[] ;
+  topics: any = [];
 
-  public topicName: any;
-  myNum = 0;
+  public displayName:any;
 
 
 
@@ -47,8 +46,13 @@ export class AppComponent {
               private getCategories: CategoryService,
               private photoService: PhotoService) {
 
-    this.getData();
 
+  }
+
+
+  async ngOnInit(): Promise<void> {
+   await this.getData();
+    this.notifyForChange(this.displayName);
   }
 
   ngAfterViewInit() {
@@ -77,23 +81,17 @@ export class AppComponent {
       });
   }
 
-  getData() {
+  async getData(): Promise<void> {
     this.getCategories.getData().subscribe(
       (data) => {
-
         this.topics = Array.from(Object.values(data));
-
-       // console.log(this.topics[6][2]);
-
-
+        // console.log(this.topics[6][2])
       }
     );
-
-
   }
-  getTopic(displayName: string) {
-    this.photoService.photoQuery(displayName);
-     alert(displayName);
+
+  notifyForChange(displayName:string) {
+    this.photoService.notifyAboutChange(displayName);
   }
 
 

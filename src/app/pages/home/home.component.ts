@@ -5,7 +5,7 @@ import {
   VERSION,
   ViewChild,
 } from '@angular/core';
-import {Observable} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 import {IUnsplashResponse} from "../../models/unsplash";
 import {PhotoService} from "../../services/photo.service";
 
@@ -19,42 +19,39 @@ export class HomeComponent implements OnInit {
 
   gridColumns = 3;
 
-  topicName: any;
-  photos:any =[] ;
-  photosData:any =[] ;
+  public topicName = 'nature';
+  photos: any = [];
+  photosData: any = [];
   p: string | number | undefined;
 
+  notifierSubscription: Subscription = this.photoService.subjectNotifier.subscribe(async notified => {
 
+    this.topicName = notified;
+    await this.getPhoto(this.topicName);
+  });
   constructor(private photoService: PhotoService) {
 
   }
 
-  ngOnInit(): void {
-    this.getPhoto();
-
-
+  async ngOnInit(): Promise<void> {
+    await this.getPhoto(this.topicName);
   }
 
-  getPhoto() {
-
+  async getPhoto(topicName: string): Promise<void> {
     this.photoService.photoQuery(this.topicName).subscribe(
       (data) => {
-
         this.photos = Array.from(Object.values(data));
-
-
-       this.photosData = this.photos[6];
-
-console.log(this.photosData);
-
+        this.photosData = this.photos[6];
+        console.log(this.photosData);
       }
     );
 
 
-
   }
 
-
+  ngOnDestroy() {
+    this.notifierSubscription.unsubscribe();
+  }
 
 
 }

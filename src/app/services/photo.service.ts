@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, take } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {catchError, take} from 'rxjs/operators';
 import {BehaviorSubject, Observable, Subject, throwError} from 'rxjs';
-import { environment } from '../../environments/environment';
+import {environment} from '../../environments/environment';
 
 const httpOptions: {
   headers: any;
@@ -24,29 +24,20 @@ const httpOptions: {
 })
 export class PhotoService {
 
- topicName: any;
-
   readonly baseUrl = 'https://api.unsplash.com';
+  subjectNotifier: Subject<string> = new Subject<string>();
 
   constructor(private http: HttpClient) {
-
   }
 
+  notifyAboutChange(displayName: string) {
+    this.subjectNotifier.next(displayName);
+  }
 
-
-  photoQuery(displayName:string): Observable<any> {
-
-console.log(displayName);
-if(this.topicName==null){
-  this.topicName = 'people';
-}else{
-  this.topicName= displayName;
-  console.log(this.topicName);
-}
-
+  photoQuery(displayName: string): Observable<any> {
     return this.http
       .get(
-        `${this.baseUrl}/topics/${this.topicName}/photos`,
+        `${this.baseUrl}/topics/${displayName}/photos`,
         httpOptions
       )
       .pipe(
@@ -59,7 +50,6 @@ if(this.topicName==null){
             )
           );
         })
-
       );
 
   }
