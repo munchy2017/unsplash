@@ -19,12 +19,11 @@ export class HomeComponent implements OnInit {
 
   gridColumns = 3;
 
-  topicName = '';
+  topicName: any;
   photos:any =[] ;
   photosData:any =[] ;
   p: string | number | undefined;
 
-  @Input() childMessage: {} | undefined;
   constructor(private photoService: PhotoService) {
 
   }
@@ -36,11 +35,8 @@ export class HomeComponent implements OnInit {
   }
 
   getPhoto() {
-    this.photoService.customChangeDetector$.subscribe((data: any) => {
-      this.topicName = data;
-      console.log(this.topicName);
-    });
-    this.photoService.photoQuery().subscribe(
+
+    this.photoService.photoQuery(this.topicName).subscribe(
       (data) => {
 
         this.photos = Array.from(Object.values(data));
@@ -48,7 +44,7 @@ export class HomeComponent implements OnInit {
 
        this.photosData = this.photos[6];
 
-
+console.log(this.photosData);
 
       }
     );

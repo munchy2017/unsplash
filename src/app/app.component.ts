@@ -34,8 +34,7 @@ export class AppComponent {
     }
 
   ];
-  //topics: Observable<IUnsplashResponse> = new Observable();
- // public topics$: Observable<any>= new Observable();
+
   topics:any =[] ;
 
   public topicName: any;
@@ -88,8 +87,8 @@ export class AppComponent {
 
 
   getTopic(displayName: string) {
-    this.photoService.customChangeDetector.next(displayName);
-    alert(displayName);
+    this.photoService.photoQuery(displayName);
+   // alert(displayName);
   }
 
 
@@ -99,7 +98,7 @@ export class AppComponent {
 
         this.topics = Array.from(Object.values(data));
 
-        console.log(this.topics[6][2]);
+       // console.log(this.topics[6][2]);
 
 
       }

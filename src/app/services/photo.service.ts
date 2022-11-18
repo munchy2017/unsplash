@@ -24,12 +24,6 @@ const httpOptions: {
 })
 export class PhotoService {
 
-
-  customChangeDetector = new Subject<string>();
-  customChangeDetector$ = this.customChangeDetector.asObservable();
-
-
-
  topicName: any;
 
   readonly baseUrl = 'https://api.unsplash.com';
@@ -39,17 +33,15 @@ export class PhotoService {
   }
 
 
-  photoQuery(): Observable<any> {
 
+  photoQuery(displayName:string): Observable<any> {
 
-
+console.log(displayName);
 if(this.topicName==null){
   this.topicName = 'people';
 }else{
-  this.customChangeDetector$.subscribe((data: any) => {
-    this.topicName = data;
-    console.log(this.topicName);
-  });
+  this.topicName= displayName;
+  console.log(this.topicName);
 }
 
     return this.http
@@ -67,6 +59,9 @@ if(this.topicName==null){
             )
           );
         })
+
       );
+
   }
+
 }
