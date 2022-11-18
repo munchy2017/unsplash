@@ -51,14 +51,6 @@ export class AppComponent {
 
   }
 
-
-
-
-
-
-
-
-
   ngAfterViewInit() {
     this.observer
       .observe(['(max-width: 800px)'])
@@ -85,13 +77,6 @@ export class AppComponent {
       });
   }
 
-
-  getTopic(displayName: string) {
-    this.photoService.photoQuery(displayName);
-   // alert(displayName);
-  }
-
-
   getData() {
     this.getCategories.getData().subscribe(
       (data) => {
@@ -106,4 +91,10 @@ export class AppComponent {
 
 
   }
+  getTopic(displayName: string) {
+    this.photoService.photoQuery(displayName);
+     alert(displayName);
+  }
+
+
 }

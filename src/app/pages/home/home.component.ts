@@ -24,6 +24,7 @@ export class HomeComponent implements OnInit {
   photosData:any =[] ;
   p: string | number | undefined;
 
+
   constructor(private photoService: PhotoService) {
 
   }
